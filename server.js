@@ -1,7 +1,21 @@
 var express = require('express')
 var moment = require('moment')
-
+var path = require('path');
 var app = express();
+
+
+app.get('/', function(req, res) {
+  var fileName = path.join(__dirname, 'index.html');
+  res.sendFile(fileName, function (err) {
+    if (err) {
+      console.log(err);
+      res.status(err.status).end();
+    }
+    else {
+      console.log('Sent:', fileName);
+    }
+  });
+});
 
 app.get('/:query',function(req,res){
         
@@ -22,6 +36,8 @@ app.get('/:query',function(req,res){
             unix = natToUnix(date);
             natural = unixToNat(unix);
         }        
+        
+        
         
         var dateObj = { "unix": unix, "natural": natural };
         res.send(JSON.stringify(dateObj));
